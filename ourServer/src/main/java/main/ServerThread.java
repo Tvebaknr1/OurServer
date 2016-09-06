@@ -17,11 +17,11 @@ import java.util.Scanner;
  *
  * @author Emil
  */
-public class SeverThread extends Thread implements ObserverInterface{
+public class ServerThread extends Thread implements ObserverInterface{
 
     private Socket s;
 
-    public SeverThread(Socket s) {
+    public ServerThread(Socket s) {
         this.s = s;
     }
 
