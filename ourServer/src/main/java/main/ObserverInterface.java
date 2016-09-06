@@ -10,5 +10,6 @@ package main;
  * @author Emil
  */
 public interface ObserverInterface {
+    public String getusername();
     public void update(String s);
 }

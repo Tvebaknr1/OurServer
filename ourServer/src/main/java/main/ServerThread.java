@@ -13,7 +13,7 @@ public class ServerThread extends Thread implements ObserverInterface
 {
 
     private Socket s;
-    String username;
+    private String username;
 
     Scanner scr;
     PrintWriter prnt;
@@ -110,6 +110,11 @@ public class ServerThread extends Thread implements ObserverInterface
         {
             //tilføj fejæl her   
         }
+    }
+
+    @Override
+    public String getusername() {
+        return username;
     }
 
 }
