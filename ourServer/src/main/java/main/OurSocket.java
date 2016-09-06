@@ -48,6 +48,11 @@ public class OurSocket implements StaticSubjectInterface{
         }
 
     }
+    private void MSG(String str){
+        String[] temp = str.split(":");
+        String[] receivers = temp[1].split(",");
+        String msg = temp[2];
+    }
 
    // @Override
     public static void register(ObserverInterface o) {

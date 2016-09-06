@@ -66,7 +66,8 @@ public class ServerThread extends Thread implements ObserverInterface
                     OurSocket.deleteUsers(username);
                     loggedin = false;
 
-                } else
+                } 
+                else
                 {
                     String[] message = new String[3];
                     message[0] = "MSG";
