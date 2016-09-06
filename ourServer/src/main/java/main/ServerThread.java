@@ -7,58 +7,71 @@ package main;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
  *
  * @author Emil
  */
-public class ServerThread extends Thread implements ObserverInterface{
+public class ServerThread extends Thread implements ObserverInterface
+{
 
     private Socket s;
+    String username;
 
-    public ServerThread(Socket s) {
+    public ServerThread(Socket s)
+    {
         this.s = s;
     }
 
-    private void handleclient(Socket s) {
-        try {
+    private void handleclient(Socket s)
+    {
+        try
+        {
             Scanner scr = new Scanner(s.getInputStream());
             PrintWriter prnt = new PrintWriter(s.getOutputStream(), true);
             String msg = "";
-            prnt.println("wellcome");
+            prnt.println("Wellcome");
             boolean loggedin = false;
-            
-            while (!loggedin) {
-                if(msg != ""){
-                    
-                }
-            }
-            while (loggedin) {
+            while (true)
+            {
 
+                if (!loggedin)
+                {
+                    if (msg != "" && msg.startsWith("LOGIN:"))
+                    {
+                        String[] string;
+                        string = msg.split(":");
+                        OurSocket.addUsers(username = string[1]);
+                        loggedin = true;
+                    }
+                } else if (msg != "" && msg.startsWith("LOGUD:"))
+                {
+
+                    OurSocket.deleteUsers(username);
+
+                }
             }
             scr.close();
             prnt.close();
             s.close();
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println(ex);
         }
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         handleclient(s);
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-   
 
 }
