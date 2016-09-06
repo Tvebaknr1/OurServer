@@ -54,10 +54,10 @@ public class socketmain implements StaticSubjectInterface{
     }
 
    // @Override
-    public static void notifyObserver() {
+    public static void notifyObserver(String s) {
         for(ObserverInterface o: observers)
         {
-            o.update();
+            o.update(s);
         }
     }
 

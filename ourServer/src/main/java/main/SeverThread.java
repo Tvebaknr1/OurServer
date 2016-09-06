@@ -21,14 +21,23 @@ public class SeverThread extends Thread implements ObserverInterface{
 
     private Socket s;
 
+    Scanner scr;
+    PrintWriter prnt;
     public SeverThread(Socket s) {
         this.s = s;
+        try{
+        scr =   new Scanner(s.getInputStream());
+        prnt = new PrintWriter(s.getOutputStream(), true);
+        }catch(Exception ex)
+        {
+            
+        }
     }
-
+ 
+            
     private void handleclient(Socket s) {
         try {
-            Scanner scr = new Scanner(s.getInputStream());
-            PrintWriter prnt = new PrintWriter(s.getOutputStream(), true);
+           
             String msg = "";
             prnt.println("wellcome");
             boolean loggedin = false;
@@ -55,8 +64,26 @@ public class SeverThread extends Thread implements ObserverInterface{
     }
 
     @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(String s) {
+        String[] StringArray = s.split(":");
+        if(StringArray[0].equals("CLIENTLIST"))
+        {
+             String[] brugere = StringArray[1].split(",");
+            prnt.print("Disse brugere er online:" );
+            for(String bruger : brugere)
+            {
+                prnt.print(" " + bruger);
+            }
+            prnt.println();
+        }
+        else if(StringArray[0].equals("MSGRES"))
+        {
+            prnt.println(StringArray[1] + " says: " + StringArray[2]);
+        }
+        else
+        {
+         //tilføj fejæl her   
+        }
     }
 
    
