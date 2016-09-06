@@ -20,6 +20,7 @@ public class OurSocket implements StaticSubjectInterface{
     static String ip = "localhost";
     static int portNum = 8080;
     private static ArrayList<Thread> thread = new ArrayList<>();
+     static ArrayList users = new ArrayList();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length == 2) {
@@ -60,5 +61,21 @@ public class OurSocket implements StaticSubjectInterface{
             o.update(s);
         }
     }
+    
+    public static void addUsers(String user)
+    {
+        users.add(user);
+    }
+
+    public static ArrayList getUsers()
+    {
+        return users;
+    }
+    
+    public static void deleteUsers(String user)
+    {
+        users.remove(user);
+    }
+    
 
 }
