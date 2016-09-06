@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Emil
  */
-public class socketmain implements StaticSubjectInterface{
+public class OurSocket implements StaticSubjectInterface{
     static ArrayList<ObserverInterface> observers = new ArrayList<>();
     static String ip = "localhost";
     static int portNum = 8080;
@@ -35,11 +35,11 @@ public class socketmain implements StaticSubjectInterface{
 
            
         while (true) {
-             Socket link = ss.accept();
+            Socket link = ss.accept();
             socketArray.add(link);
 
             System.out.println("new client connection");
-            SeverThread t = new SeverThread(link);
+            ServerThread t = new ServerThread(link);
             t.start();
             
             thread.add(t);

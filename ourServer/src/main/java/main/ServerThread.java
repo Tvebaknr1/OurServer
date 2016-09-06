@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,13 +17,15 @@ import java.util.Scanner;
  *
  * @author Emil
  */
-public class SeverThread extends Thread implements ObserverInterface{
+public class ServerThread extends Thread implements ObserverInterface{
 
     private Socket s;
+
 
     Scanner scr;
     PrintWriter prnt;
     public SeverThread(Socket s) {
+
         this.s = s;
         try{
         scr =   new Scanner(s.getInputStream());
