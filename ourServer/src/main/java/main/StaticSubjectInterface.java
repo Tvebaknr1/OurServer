@@ -22,7 +22,7 @@ public interface StaticSubjectInterface {
     /**
      *
      */
-    public static void notifyObserver(){
+    public static void notifyObserver(String s){
         
     }
 }

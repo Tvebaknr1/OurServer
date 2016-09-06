@@ -10,5 +10,5 @@ package main;
  * @author Emil
  */
 public interface ObserverInterface {
-    public void update();
+    public void update(String s);
 }
