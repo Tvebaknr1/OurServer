@@ -96,6 +96,7 @@ public class ServerThread extends Thread implements ObserverInterface
         String[] StringArray = s.split(":");
         if (StringArray[0].equals("CLIENTLIST"))
         {
+            /*
             String[] brugere = StringArray[1].split(",");
             prnt.print("Disse brugere er online:");
             for (String bruger : brugere)
@@ -103,9 +104,12 @@ public class ServerThread extends Thread implements ObserverInterface
                 prnt.print(" " + bruger);
             }
             prnt.println();
+            */
+            prnt.println(s);
         } else if (StringArray[0].equals("MSGRES"))
         {
-            prnt.println(StringArray[1] + " says: " + StringArray[2]);
+            prnt.println(s);
+            //prnt.println(StringArray[1] + " says: " + StringArray[2]);
         } else
         {
             //tilføj fejæl her   
