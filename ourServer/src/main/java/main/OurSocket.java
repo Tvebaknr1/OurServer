@@ -108,6 +108,8 @@ public class OurSocket implements StaticSubjectInterface {
 
     public static void deleteUsers(String user) {
         users.remove(user);
+        String str = "MSGRES:" + user + ":" + user + " HAS LOGGED OUT";
+        notifyObserver(str);
     }
 
 }
