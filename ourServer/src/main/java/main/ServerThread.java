@@ -9,8 +9,7 @@ import java.util.Scanner;
  *
  * @author Emil
  */
-public class ServerThread extends Thread implements ObserverInterface
-{
+public class ServerThread extends Thread implements ObserverInterface {
 
     private Socket s;
     private String username;
@@ -18,60 +17,49 @@ public class ServerThread extends Thread implements ObserverInterface
     Scanner scr;
     PrintWriter prnt;
 
-    public ServerThread(Socket s)
-    {
+    public ServerThread(Socket s) {
 
         this.s = s;
-        try
-        {
+        try {
             scr = new Scanner(s.getInputStream());
             prnt = new PrintWriter(s.getOutputStream(), true);
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
     }
 
-    private void handleclient(Socket s)
-    {
-        try
-        {
+    private void handleclient(Socket s) {
+        try {
             String msg = "";
             prnt.println("Welcome");
             boolean loggedIn = false;
 
-            while (!loggedIn)
-            {
+            while (!loggedIn) {
                 msg = scr.nextLine();
 
-                if (msg != "" && msg.startsWith("LOGIN:"))
-                {
+                if (msg != "" && msg.startsWith("LOGIN:")) {
                     String[] string;
                     string = msg.split(":");
-                    OurSocket.addUsers(username = string[1]);                    
-                    loggedIn = true;
+                    if (string.length == 2) {
+                        OurSocket.addUsers(username = string[1]);
+                        loggedIn = true;
+                    }
+
+                    
                 }
             }
-            while (loggedIn)
-            {
+            while (loggedIn) {
                 msg = scr.nextLine();
-                if (msg != "" && msg.startsWith("LOGOUT:"))
-                {
+                if (msg != "" && msg.startsWith("LOGOUT:")) {
                     prnt.println("Du logger ud");
                     OurSocket.deleteUsers(username);
                     loggedIn = false;
 
-
-                }
-                else if(msg!="" && msg.startsWith("MSG:")){
-                    if(msg.split(":").length==3){
-                        OurSocket.MSG(msg);
+                } else if (msg != "" && msg.startsWith("MSG:")) {
+                    if (msg.split(":").length == 3) {
+                        OurSocket.MSG(msg, username);
                     }
-                }
-
-                 else if(msg.contains(":"))
-
-                {
+                } else if (msg.contains(":")) {
                     String[] message = new String[2];
                     message[0] = "MSG";
                     message[1] = msg;
@@ -81,24 +69,20 @@ public class ServerThread extends Thread implements ObserverInterface
             scr.close();
             prnt.close();
             s.close();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println(ex);
         }
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         handleclient(s);
     }
 
     @Override
-    public void update(String s)
-    {
+    public void update(String s) {
         String[] StringArray = s.split(":");
-        if (StringArray[0].equals("CLIENTLIST"))
-        {
+        if (StringArray[0].equals("CLIENTLIST")) {
             /*
             String[] brugere = StringArray[1].split(",");
             prnt.print("Disse brugere er online:");
@@ -107,15 +91,13 @@ public class ServerThread extends Thread implements ObserverInterface
                 prnt.print(" " + bruger);
             }
             prnt.println();
-            */
+             */
             prnt.println(s);
-        } else if (StringArray[0].equals("MSGRES"))
-        {
+        } else if (StringArray[0].equals("MSGRES")) {
             String[] temp = s.split(":");
-            prnt.println(temp[0]+":" + getusername() + ":" + temp[1]);
+            prnt.println(s);
             //prnt.println(StringArray[1] + " says: " + StringArray[2]);
-        } else
-        {
+        } else {
             //tilføj fejæl her   
         }
     }
@@ -128,6 +110,5 @@ public class ServerThread extends Thread implements ObserverInterface
 //    {
 //        
 //    }
-    
+
 }
- 

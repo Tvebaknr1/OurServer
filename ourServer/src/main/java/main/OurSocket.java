@@ -48,14 +48,14 @@ public class OurSocket implements StaticSubjectInterface {
 
     }
 
-    public static void MSG(String str) {
+    public static void MSG(String str, String sender) {
         String[] temp = str.split(":");
         String[] receivers = temp[1].split(",");
-        String msg = "MSGRES:" + temp[2];
+        String msg = "MSGRES:"+sender+":" + temp[2];
         System.out.println(str);
         if(receivers.length>1)
         notifyObserver(msg, receivers);
-        else if(receivers.length==1 && !receivers.equals("")){
+        else if(receivers.length==1 && !receivers[0].equals("")){
             notifyObserver(msg, receivers[0]);
         }
         else{
