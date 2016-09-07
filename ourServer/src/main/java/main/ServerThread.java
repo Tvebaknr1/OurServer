@@ -36,13 +36,11 @@ public class ServerThread extends Thread implements ObserverInterface
     {
         try
         {
-            Scanner scr = new Scanner(s.getInputStream());
-            PrintWriter prnt = new PrintWriter(s.getOutputStream(), true);
             String msg = "";
             prnt.println("Welcome");
-            boolean loggedin = false;
+            boolean loggedIn = false;
 
-            while (!loggedin)
+            while (!loggedIn)
             {
                 msg = scr.nextLine();
 
@@ -50,21 +48,19 @@ public class ServerThread extends Thread implements ObserverInterface
                 {
                     String[] string;
                     string = msg.split(":");
-                    OurSocket.addUsers(username = string[1]);
-                    prnt.println("Du logger ind");
-
-                    loggedin = true;
+                    OurSocket.addUsers(username = string[1]);                    
+                    loggedIn = true;
                 }
             }
-            while (loggedin)
+            while (loggedIn)
             {
                 msg = scr.nextLine();
                 if (msg != "" && msg.startsWith("LOGOUT:"))
                 {
                     prnt.println("Du logger ud");
-
                     OurSocket.deleteUsers(username);
-                    loggedin = false;
+                    loggedIn = false;
+
 
                 }
                 else if(msg!="" && msg.startsWith("MSG:")){
@@ -72,12 +68,14 @@ public class ServerThread extends Thread implements ObserverInterface
                         OurSocket.MSG(msg);
                     }
                 }
-                else
+
+                 else if(msg.contains(":"))
+
                 {
-                    String[] message = new String[3];
+                    String[] message = new String[2];
                     message[0] = "MSG";
-                    message[1] = username;
-                    message[2] = msg;
+                    message[1] = msg;
+                    String finalMsg = message[0] + ":" + message[1];
                 }
             }
             scr.close();
@@ -122,10 +120,14 @@ public class ServerThread extends Thread implements ObserverInterface
         }
     }
 
-    @Override
     public String getusername() {
         return username;
     }
-
+//
+//    public String usersLoggedIn()
+//    {
+//        
+//    }
+    
 }
  

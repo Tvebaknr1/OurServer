@@ -39,6 +39,7 @@ public class OurSocket implements StaticSubjectInterface {
 
             System.out.println("new client connection");
             ServerThread t = new ServerThread(link);
+            register(t);
             t.start();
 
             thread.add(t);
@@ -92,6 +93,14 @@ public class OurSocket implements StaticSubjectInterface {
 
     public static void addUsers(String user) {
         users.add(user);
+        String str = "CLIENTLIST:";
+        for(int i = 0; i < users.size()-1; i++)
+        {
+            str += users.get(i) + ",";
+        }
+        str += users.get(users.size()-1);
+        
+        notifyObserver(str);
     }
 
     public static ArrayList getUsers() {
@@ -100,6 +109,8 @@ public class OurSocket implements StaticSubjectInterface {
 
     public static void deleteUsers(String user) {
         users.remove(user);
+        String str = "MSGRES:" + user + ":" + user + " HAS LOGGED OUT";
+        notifyObserver(str);
     }
 
 }
