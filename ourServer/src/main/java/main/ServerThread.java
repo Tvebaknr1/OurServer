@@ -66,7 +66,12 @@ public class ServerThread extends Thread implements ObserverInterface
                     OurSocket.deleteUsers(username);
                     loggedin = false;
 
-                } 
+                }
+                else if(msg!="" && msg.startsWith("MSG:")){
+                    if(msg.split(":").length==3){
+                        OurSocket.MSG(msg);
+                    }
+                }
                 else
                 {
                     String[] message = new String[3];
@@ -108,7 +113,8 @@ public class ServerThread extends Thread implements ObserverInterface
             prnt.println(s);
         } else if (StringArray[0].equals("MSGRES"))
         {
-            prnt.println(s);
+            String[] temp = s.split(":");
+            prnt.println(temp[0]+":" + getusername() + ":" + temp[1]);
             //prnt.println(StringArray[1] + " says: " + StringArray[2]);
         } else
         {
@@ -122,3 +128,4 @@ public class ServerThread extends Thread implements ObserverInterface
     }
 
 }
+ 

@@ -47,10 +47,11 @@ public class OurSocket implements StaticSubjectInterface {
 
     }
 
-    private void MSG(String str) {
+    public static void MSG(String str) {
         String[] temp = str.split(":");
         String[] receivers = temp[1].split(",");
-        String msg = temp[2];
+        String msg = "MSGRES:" + temp[2];
+        System.out.println(str);
         if(receivers.length>1)
         notifyObserver(msg, receivers);
         else if(receivers.length==1 && !receivers.equals("")){
