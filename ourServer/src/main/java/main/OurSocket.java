@@ -53,7 +53,7 @@ public class OurSocket implements StaticSubjectInterface {
         String msg = temp[2];
         if(receivers.length>1)
         notifyObserver(msg, receivers);
-        else if(receivers.length==1){
+        else if(receivers.length==1 && !receivers.equals("")){
             notifyObserver(msg, receivers[0]);
         }
         else{
