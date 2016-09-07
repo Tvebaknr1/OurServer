@@ -48,9 +48,7 @@ public class ServerThread extends Thread implements ObserverInterface
                 {
                     String[] string;
                     string = msg.split(":");
-                    OurSocket.addUsers(username = string[1]);
-                    prnt.println("Du logger ind");
-
+                    OurSocket.addUsers(username = string[1]);                    
                     loggedIn = true;
                 }
             }
@@ -60,12 +58,10 @@ public class ServerThread extends Thread implements ObserverInterface
                 if (msg != "" && msg.startsWith("LOGOUT:"))
                 {
                     prnt.println("Du logger ud");
-
                     OurSocket.deleteUsers(username);
                     loggedIn = false;
 
                 } else if(msg.contains(":"))
-
                 {
                     String[] message = new String[2];
                     message[0] = "MSG";
@@ -114,9 +110,13 @@ public class ServerThread extends Thread implements ObserverInterface
         }
     }
 
-    @Override
     public String getusername() {
         return username;
     }
-
+//
+//    public String usersLoggedIn()
+//    {
+//        
+//    }
+    
 }
