@@ -29,6 +29,7 @@ public class ClientHandler extends Thread implements ObserverInterface
     PrintWriter output;
     private InetAddress serverAddress;
     private ClientGUI gui;
+    MessageReceiver msgRec;
 
     public ClientHandler(String ip, String port)
     {
@@ -45,7 +46,10 @@ public class ClientHandler extends Thread implements ObserverInterface
 
             s = new Socket(serverAddress, Integer.parseInt(port));
             input = new Scanner(s.getInputStream());
-            output = new PrintWriter(s.getOutputStream());
+            output = new PrintWriter(s.getOutputStream(), true);
+            msgRec = new MessageReceiver(input);
+            msgRec.register(this);
+            msgRec.start();
         } catch (Exception ex)
         {
 
@@ -100,7 +104,7 @@ public class ClientHandler extends Thread implements ObserverInterface
             gui.receiveMessage(s);
         } else if (s.startsWith("CLIENTLIST:"))
         {
-
+            gui.updateUserList(s);
         }
 
     }
