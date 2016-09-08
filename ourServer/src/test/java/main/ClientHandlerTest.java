@@ -5,9 +5,7 @@
  */
 package main;
 
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import org.junit.BeforeClass;
 
 /**
  *
@@ -15,32 +13,24 @@ import org.junit.BeforeClass;
  */
 public class ClientHandlerTest
 {
-    public ClientHandlerTest()
-    {
-    }
-    
-    @BeforeClass
-    public static void setUpClass()
-    {
-    }
-    
-    @AfterClass
-    public static void tearDownClass()
-    {
-    }
 
-    /**
-     * Test of run method, of class ClientHandler.
-     */
     @org.junit.Test
     public void testRun()
     {
         System.out.println("run");
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
+
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
+        }
 
         instance.run();
-        
+
     }
 
     /**
@@ -51,7 +41,14 @@ public class ClientHandlerTest
     {
         System.out.println("receive");
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
+        }
 
         instance.receive();
     }
@@ -74,7 +71,7 @@ public class ClientHandlerTest
             System.out.println(ex.toString());
         }
         instance.addUser(username);
-        
+
     }
 
     /**
@@ -87,8 +84,16 @@ public class ClientHandlerTest
         String message = "";
         String[] users = null;
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
 
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
+
+        }
         instance.writeMessage(message, users);
     }
 
@@ -100,7 +105,15 @@ public class ClientHandlerTest
     {
         System.out.println("logout");
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
+
+        }
 
         instance.logout();
     }
@@ -113,7 +126,15 @@ public class ClientHandlerTest
     {
         System.out.println("getusername");
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
+
+        }
 
         String expResult = "";
         String result = instance.getusername();
@@ -129,8 +150,15 @@ public class ClientHandlerTest
         System.out.println("update");
         String s = "";
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
 
+        }
         instance.update(s);
     }
 
@@ -141,11 +169,18 @@ public class ClientHandlerTest
     public void testRegister()
     {
         System.out.println("register");
-        ClientGUI gui = null;
+        ClientGUI gui = new ClientGUI();
         ClientHandler instance = new ClientHandler("localhost", "8080");
-                instance.start();
+        instance.start();
+        try
+        {
+            instance.join();
+        } catch (InterruptedException ex)
+        {
+            System.out.println(ex.toString());
+        }
 
         instance.register(gui);
     }
-    
+
 }
