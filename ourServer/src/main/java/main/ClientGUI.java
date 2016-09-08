@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class ClientGUI extends javax.swing.JFrame {
 
+    private static ClientHandler CH;
     private static ArrayList<String> es = new ArrayList<>();
     private static ClientGUI cg;
     private DefaultListModel listModel;
@@ -36,15 +37,12 @@ public class ClientGUI extends javax.swing.JFrame {
         String port;
         port = JOptionPane.showInputDialog(this,
                 "Enter the servers port", null);
-        String name;
-        name = JOptionPane.showInputDialog(this,
-                "Enter your username", null);
-        ClientGUI.loggingIn(name);
-        
-        
+        CH = new ClientHandler(ip, port);
+        CH.start();
         myname = JOptionPane.showInputDialog(this,
-                "and what do they desire to you go by?", null);
+                "Enter your username", null);
         ClientGUI.loggingIn(myname);
+        
 
         jButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,11 +56,10 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void send(String str, List<String> sendTo) {
         String temp = "";
-        for (String string : sendTo) {
-            temp += string + ",";
-        }
+        String[] SendToArray= new String[sendTo.size()]; 
         writeToTextField(myname,str);
-        str = "MSG:" + temp + ":" + str;
+        str = temp + ":" + str;
+        CH.writeMessage(str, SendToArray);
         
     }
 
@@ -80,7 +77,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     public static void loggingIn(String username) {
-        
+        CH.addUser(username);
         cg.adduser(username);
     }
 
