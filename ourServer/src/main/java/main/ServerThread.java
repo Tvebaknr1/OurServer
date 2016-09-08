@@ -31,7 +31,6 @@ public class ServerThread extends Thread implements ObserverInterface {
     private void handleclient(Socket s) {
         try {
             String msg = "";
-            prnt.println("Welcome");
             boolean loggedIn = false;
 
             while (!loggedIn) {
@@ -51,7 +50,6 @@ public class ServerThread extends Thread implements ObserverInterface {
             while (loggedIn) {
                 msg = scr.nextLine();
                 if (msg != "" && msg.startsWith("LOGOUT:")) {
-                    prnt.println("Du logger ud");
                     OurSocket.deleteUsers(username);
                     loggedIn = false;
 
