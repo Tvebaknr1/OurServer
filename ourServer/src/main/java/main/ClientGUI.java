@@ -27,10 +27,13 @@ public class ClientGUI extends javax.swing.JFrame {
         initComponents();
         String ip;
         ip = JOptionPane.showInputDialog(this,
-                "what ip do you seek?", null);
+                "Enter the servers IP", null);
+        String port;
+        port = JOptionPane.showInputDialog(this,
+                "Enter the servers port", null);
         String name;
         name = JOptionPane.showInputDialog(this,
-                "and what do they desire to you go by?", null);
+                "Enter your username", null);
         ClientGUI.loggingIn(name);
         
         
