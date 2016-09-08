@@ -51,20 +51,19 @@ public class ClientGUI extends javax.swing.JFrame
             public void actionPerformed(ActionEvent e)
             {
                 // display/center the jdialog when the button is pressed
-                send(jTextField1.getText(), jList1.getSelectedValuesList());
+                String[] str = new String[jList1.getSelectedValuesList().size()];
+                str = jList1.getSelectedValuesList().toArray(str);
+                send(jTextField1.getText(), str);
                 jTextField1.setText("");
             }
         });
 
     }
 
-    private void send(String str, List<String> sendTo)
+    private void send(String str, String[] sendTo)
     {
         
-        String[] sendToArray = new String[sendTo.size()];
-        writeToTextField(myName, str);
-        str =  str;
-        clientHandler.writeMessage(str, sendToArray);
+        clientHandler.writeMessage(str, sendTo);
 
     }
 
@@ -86,6 +85,7 @@ public class ClientGUI extends javax.swing.JFrame
     public void updateUserList(String username){
         String[] temp = username.split(":");
         String[] str = temp[1].split(",");
+        listOfUsers.clear();
         for (String string : str) {
             listOfUsers.add(string);
         }
