@@ -41,6 +41,7 @@ public class ClientGUI extends javax.swing.JFrame
                 "Enter the servers port");
         clientHandler = new ClientHandler(ip, port);
         clientHandler.start();
+        clientHandler.register(this);
         myName = JOptionPane.showInputDialog(this,
                 "Enter your username");
         ClientGUI.loggingIn(myName);

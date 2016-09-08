@@ -28,6 +28,13 @@ public class MessageReceiver extends Thread implements StaticSubjectInterface
         while (true)
         {
             String msg = input.next();
+            if(msg.startsWith("CLIENTLIST:") || msg.startsWith("MSGRES:"))
+            {
+                notifyObserver(msg);
+            }else
+            {
+                System.out.println("Error: " + msg);
+            }
 
         }
     }
@@ -37,8 +44,8 @@ public class MessageReceiver extends Thread implements StaticSubjectInterface
         this.o = o;
     }
 
-    public static void notifyObserver(String s)
+    public void notifyObserver(String s)
     {
-
+        o.update(s);
     }
 }

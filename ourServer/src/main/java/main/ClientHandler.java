@@ -19,7 +19,8 @@ import java.util.logging.Logger;
  *
  * @author ehn19
  */
-public class ClientHandler extends Thread implements ObserverInterface {
+public class ClientHandler extends Thread implements ObserverInterface
+{
 
     private Socket s;
     private String username;
@@ -27,42 +28,52 @@ public class ClientHandler extends Thread implements ObserverInterface {
     Scanner input;
     PrintWriter output;
     private InetAddress serverAddress;
+    private ClientGUI gui;
 
-    public ClientHandler(String ip, String port) {
+    public ClientHandler(String ip, String port)
+    {
         this.ip = ip;
         this.port = port;
     }
 
     @Override
-    public void run() {
-        try {
+    public void run()
+    {
+        try
+        {
             serverAddress = InetAddress.getByName(ip);
 
             s = new Socket(serverAddress, Integer.parseInt(port));
             input = new Scanner(s.getInputStream());
             output = new PrintWriter(s.getOutputStream());
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
 
         }
     }
 
-    public void receive() {
-        
+    public void receive()
+    {
+
     }
 
-    public void addUser(String username) {
+    public void addUser(String username)
+    {
         this.username = username;
         String msg = "LOGIN:" + username;
         output.println(msg);
     }
 
-    public void writeMessage(String message, String[] users) {
+    public void writeMessage(String message, String[] users)
+    {
         String msg = "MSG:";
 
-        for (int i = 0; i < users.length - 1; i++) {
+        for (int i = 0; i < users.length - 1; i++)
+        {
             msg += users[i] + ",";
         }
-        if (users.length > 0) {
+        if (users.length > 0)
+        {
             msg += users[users.length - 1];
         }
         msg += ":" + message;
@@ -70,19 +81,34 @@ public class ClientHandler extends Thread implements ObserverInterface {
         output.println(msg);
     }
 
-    public void logout() {
+    public void logout()
+    {
         output.println("LOGOUT:");
     }
 
     @Override
-    public String getusername() {
+    public String getusername()
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void update(String s
-    ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(String s)
+    {
+        if (s.startsWith("MSGRES:"))
+        {
+            gui.receiveMessage(s);
+        } else if (s.startsWith("CLIENTLIST:"))
+        {
+
+        }
+
+    }
+
+    public void register(ClientGUI gui)
+    {
+        this.gui = gui;
+
     }
 
 }
