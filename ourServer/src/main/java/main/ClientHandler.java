@@ -7,6 +7,7 @@ package main;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -24,9 +25,11 @@ public class ClientHandler extends Thread implements ObserverInterface
     private Socket s;
     private String username;
     String ip, port;
-    Scanner scr;
-    PrintWriter prnt;
-
+    Scanner input;
+    PrintWriter output;
+    private InetAddress serverAddress;
+    
+    
     public ClientHandler(String ip, String port)
     {
         this.ip = ip;
@@ -36,28 +39,16 @@ public class ClientHandler extends Thread implements ObserverInterface
     @Override
     public void run()
     {
-        ServerSocket ss;
         try
         {
-            ss = new ServerSocket();
-            int portInt = Integer.parseInt(port);
-            ss.bind(new InetSocketAddress(ip, portInt));
-            s = ss.accept();
-
-            System.out.println("Has connected to server");
-
-        } catch (IOException ex)
+            serverAddress = InetAddress.getByName(ip);
+            
+            s = new Socket(serverAddress, Integer.parseInt(port));
+            input = new Scanner(s.getInputStream());
+            output = new PrintWriter(s.getOutputStream());
+        }catch(Exception ex)
         {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        try
-        {
-            scr = new Scanner(s.getInputStream());
-            prnt = new PrintWriter(s.getOutputStream(), true);
-        } catch (Exception ex)
-        {
-
+            
         }
     }
 
@@ -65,7 +56,7 @@ public class ClientHandler extends Thread implements ObserverInterface
     {
         this.username = username;
         String msg = "LOGIN:" + username;
-        prnt.println(msg);
+        output.println(msg);
     }
     
     public void writeMessage(String message, String[] users)
@@ -76,15 +67,16 @@ public class ClientHandler extends Thread implements ObserverInterface
         {
             msg += users[i] + ",";
         }
+        if(users.length > 0)
         msg += users[users.length-1];
         msg += ":" + message;
         
-        prnt.println(msg);
+        output.println(msg);
     }
     
     public void logout()
     {
-        prnt.println("LOGOUT:");
+        output.println("LOGOUT:");
     }
 
     @Override
