@@ -27,7 +27,7 @@ public class MessageReceiver extends Thread implements StaticSubjectInterface
     {
         while (true)
         {
-            String msg = input.next();
+            String msg = input.nextLine();
             if(msg.startsWith("CLIENTLIST:") || msg.startsWith("MSGRES:"))
             {
                 notifyObserver(msg);

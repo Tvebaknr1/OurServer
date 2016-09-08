@@ -29,13 +29,14 @@ public class ServerThread extends Thread implements ObserverInterface {
     }
 
     private void handleclient(Socket s) {
+        System.out.println("test");
         try {
             String msg = "";
             boolean loggedIn = false;
-
+            System.out.println("");
             while (!loggedIn) {
                 msg = scr.nextLine();
-
+                System.out.println(msg);
                 if (msg != "" && msg.startsWith("LOGIN:")) {
                     String[] string;
                     string = msg.split(":");
@@ -49,6 +50,7 @@ public class ServerThread extends Thread implements ObserverInterface {
             }
             while (loggedIn) {
                 msg = scr.nextLine();
+                System.out.println(msg);
                 if (msg != "" && msg.startsWith("LOGOUT:")) {
                     OurSocket.deleteUsers(username);
                     loggedIn = false;
@@ -67,8 +69,8 @@ public class ServerThread extends Thread implements ObserverInterface {
             scr.close();
             prnt.close();
             s.close();
-        } catch (IOException ex) {
-            System.out.println(ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -90,6 +92,7 @@ public class ServerThread extends Thread implements ObserverInterface {
             }
             prnt.println();
              */
+            System.out.println(s);
             prnt.println(s);
         } else if (StringArray[0].equals("MSGRES")) {
             String[] temp = s.split(":");
