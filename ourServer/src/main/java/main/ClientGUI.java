@@ -83,6 +83,18 @@ public class ClientGUI extends javax.swing.JFrame
             listModel.addElement(e);
         }
     }
+    public void updateUserList(String username){
+        String[] temp = username.split(":");
+        String[] str = temp[1].split(",");
+        for (String string : str) {
+            listOfUsers.add(string);
+        }
+        listModel.clear();
+        for (String e : listOfUsers) {
+            listModel.addElement(e);
+        }
+        
+    }
 
     public static void loggingIn(String username)
     {
