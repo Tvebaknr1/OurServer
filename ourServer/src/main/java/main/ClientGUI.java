@@ -17,8 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author Emil
  */
-public class ClientGUI extends javax.swing.JFrame
-{
+public class ClientGUI extends javax.swing.JFrame {
 
     private static ClientHandler clientHandler;
     private static ArrayList<String> listOfUsers = new ArrayList<>();
@@ -29,10 +28,16 @@ public class ClientGUI extends javax.swing.JFrame
     /**
      * Creates new form ClientGUI
      */
-    public ClientGUI()
-    {
+    public ClientGUI() {
         initComponents();
         clientGUI = this;
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                clientHandler.logout();
+            }
+        });
+        this.getRootPane().setDefaultButton(jButton1);
         String ip;
         ip = JOptionPane.showInputDialog(this,
                 "Enter the servers IP");
@@ -46,10 +51,8 @@ public class ClientGUI extends javax.swing.JFrame
                 "Enter your username");
         ClientGUI.loggingIn(myName);
 
-        jButton1.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 // display/center the jdialog when the button is pressed
                 String[] str = new String[jList1.getSelectedValuesList().size()];
                 str = jList1.getSelectedValuesList().toArray(str);
@@ -60,29 +63,26 @@ public class ClientGUI extends javax.swing.JFrame
 
     }
 
-    private void send(String str, String[] sendTo)
-    {
-        
+    private void send(String str, String[] sendTo) {
+
         clientHandler.writeMessage(str, sendTo);
 
     }
 
-    public void receiveMessage(String str)
-    {
+    public void receiveMessage(String str) {
         String[] temp = str.split(":");
         writeToTextField(temp[1], temp[2]);
     }
 
-    public void addUser(String username)
-    {
+    public void addUser(String username) {
         listOfUsers.add(username);
         listModel.clear();
-        for (String e : listOfUsers)
-        {
+        for (String e : listOfUsers) {
             listModel.addElement(e);
         }
     }
-    public void updateUserList(String username){
+
+    public void updateUserList(String username) {
         String[] temp = username.split(":");
         String[] str = temp[1].split(",");
         listOfUsers.clear();
@@ -93,17 +93,19 @@ public class ClientGUI extends javax.swing.JFrame
         for (String e : listOfUsers) {
             listModel.addElement(e);
         }
-        
+
     }
 
-    public static void loggingIn(String username)
-    {
+    public void logout(String username) {
+
+    }
+
+    public static void loggingIn(String username) {
         clientHandler.addUser(username);
         clientGUI.addUser(username);
     }
 
-    private void writeToTextField(String sender, String str)
-    {
+    private void writeToTextField(String sender, String str) {
         str = jTextArea1.getText() + "\n" + sender + ":" + str;
         jTextArea1.setText(str);
     }
@@ -186,43 +188,33 @@ public class ClientGUI extends javax.swing.JFrame
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 new ClientGUI().setVisible(true);
             }
         });
