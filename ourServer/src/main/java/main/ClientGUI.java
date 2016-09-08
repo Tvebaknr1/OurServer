@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,12 +18,22 @@ import javax.swing.JList;
  */
 public class ClientGUI extends javax.swing.JFrame {
 
-    ArrayList<String> es;
+    private static ArrayList<String> es;
+    private static ClientGUI cg;
     /**
      * Creates new form ClientGUI
      */
     public ClientGUI() {
         initComponents();
+        String ip;
+        ip = JOptionPane.showInputDialog(this,
+                "what ip do you seek?", null);
+        String name;
+        name = JOptionPane.showInputDialog(this,
+                "and what do they desire to you go by?", null);
+        ClientGUI.loggingIn(name);
+        
+        
         jButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // display/center the jdialog when the button is pressed
@@ -30,6 +41,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 jTextField1.setText("");
             }
         });
+        cg=this;
     }
 
     private void send(String str,List<String> sendTo){
@@ -46,6 +58,9 @@ public class ClientGUI extends javax.swing.JFrame {
     public void adduser(String username) {
         es.add(username);
         jList1 = new JList(es.toArray());
+    }
+    public static void loggingIn(String username){
+        cg.adduser(username);
     }
 
     private void writeToTextField(String sender,String str) {
