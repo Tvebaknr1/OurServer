@@ -60,6 +60,7 @@ public class ClientHandler extends Thread implements ObserverInterface
 
         }
     }
+    
 
     public void addUser(String username)
     {
