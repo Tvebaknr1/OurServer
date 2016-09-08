@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -18,13 +19,17 @@ import javax.swing.JOptionPane;
  */
 public class ClientGUI extends javax.swing.JFrame {
 
-    private static ArrayList<String> es;
+    private static ArrayList<String> es = new ArrayList<>();
     private static ClientGUI cg;
+    private DefaultListModel listModel;
+    String myname;
+
     /**
      * Creates new form ClientGUI
      */
     public ClientGUI() {
         initComponents();
+        cg = this;
         String ip;
         ip = JOptionPane.showInputDialog(this,
                 "Enter the servers IP", null);
@@ -37,37 +42,50 @@ public class ClientGUI extends javax.swing.JFrame {
         ClientGUI.loggingIn(name);
         
         
+        myname = JOptionPane.showInputDialog(this,
+                "and what do they desire to you go by?", null);
+        ClientGUI.loggingIn(myname);
+
         jButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // display/center the jdialog when the button is pressed
-                send(jTextField1.getText(),jList1.getSelectedValuesList());
+                send(jTextField1.getText(), jList1.getSelectedValuesList());
                 jTextField1.setText("");
             }
         });
-        cg=this;
+
     }
 
-    private void send(String str,List<String> sendTo){
+    private void send(String str, List<String> sendTo) {
         String temp = "";
         for (String string : sendTo) {
-            temp+=string+",";
+            temp += string + ",";
         }
-        str="MSG:"+temp+":"+str;
+        writeToTextField(myname,str);
+        str = "MSG:" + temp + ":" + str;
+        
     }
-    public void receivemessage(String str){
+
+    public void receivemessage(String str) {
         String[] temp = str.split(":");
-        writeToTextField(temp[0],temp[1]);
+        writeToTextField(temp[1], temp[2]);
     }
+
     public void adduser(String username) {
         es.add(username);
-        jList1 = new JList(es.toArray());
+        listModel.clear();
+        for (String e : es) {
+            listModel.addElement(e);
+        }
     }
-    public static void loggingIn(String username){
+
+    public static void loggingIn(String username) {
+        
         cg.adduser(username);
     }
 
-    private void writeToTextField(String sender,String str) {
-        str = jTextArea1.getText() + "\n" +sender+":"+ str;
+    private void writeToTextField(String sender, String str) {
+        str = jTextArea1.getText() + "\n" + sender + ":" + str;
         jTextArea1.setText(str);
     }
 
@@ -106,6 +124,9 @@ public class ClientGUI extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        listModel = new DefaultListModel();
+
+        jList1 = new JList(listModel);
         jScrollPane2.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
