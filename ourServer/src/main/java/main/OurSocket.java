@@ -29,22 +29,22 @@ public class OurSocket implements StaticSubjectInterface {
             portNum = Integer.parseInt(args[1]);
 
         }
-//        ArrayList socketArray = new ArrayList();
-//        ServerSocket ss = new ServerSocket();
-//        ss.bind(new InetSocketAddress(ip, portNum));
-//
-//        while (true) {
-//            Socket link = ss.accept();
-//            socketArray.add(link);
-//
-//            System.out.println("new client connection");
-//            ServerThread t = new ServerThread(link);
-//            register(t);
-//            t.start();
-//
-//            thread.add(t);
-//
-//        }
+        ArrayList socketArray = new ArrayList();
+        ServerSocket ss = new ServerSocket();
+        ss.bind(new InetSocketAddress(ip, portNum));
+
+        while (true) {
+            Socket link = ss.accept();
+            socketArray.add(link);
+
+            System.out.println("new client connection");
+            ServerThread t = new ServerThread(link);
+            register(t);
+            t.start();
+
+            thread.add(t);
+
+       }
 
     }
 
