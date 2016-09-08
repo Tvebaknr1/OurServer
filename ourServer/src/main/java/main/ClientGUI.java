@@ -60,10 +60,10 @@ public class ClientGUI extends javax.swing.JFrame
 
     private void send(String str, List<String> sendTo)
     {
-        String temp = "";
+        
         String[] sendToArray = new String[sendTo.size()];
         writeToTextField(myName, str);
-        str = temp + ":" + str;
+        str =  str;
         clientHandler.writeMessage(str, sendToArray);
 
     }
@@ -98,7 +98,7 @@ public class ClientGUI extends javax.swing.JFrame
 
     public static void loggingIn(String username)
     {
-        //clientHandler.addUser(username);
+        clientHandler.addUser(username);
         clientGUI.addUser(username);
     }
 
