@@ -11,15 +11,44 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <h1>Vores dokumentation</h1>
+        <h2>CA 1 :Chatserver</h2>
+        <h3>Server</h3>
+        <p>Vores server har en main thread og en liste af sekundære threads.<br> 
+            Main thread'en står for udregninger, mens de sekundære threads står 
+            for at skrive og læse fra deres givne clients.</p>
+        <h3>ObserverInterface</h3>
+        <p>Vi valgte at lave vores egne observer- og subject interfaces, 
+            da vi mente, at vi ville have mere kontrol over koden. <br>
+            Disse interfaces bliver brugt, når vi skal kommunikere med de mange sekundære threads.</p>
+        <h3>ClientGUI</h3>
+        <p>Vores GUI består af en tekstboks. I denne tekstboks kan man læse sine beskeder, 
+            samt kan man skrive beskeder til andre. <br>Hertil er en knap for at sende sin besked, 
+            hvis man ikke vil trykke på enter knappen. 
+            <br>I højre side ses en liste af alle online brugere, 
+            hvor man kan vælge en eller flere brugere, som man vil skrive til. <br> 
+            Dette gør man ved at holde CTRL nede, mens man klikker på de ønskede brugere.<br>  
+            De brugere man vælger, er de eneste der får ens beskeder, 
+            og hvis man ikke vælger nogen brugere, får alle online brugere ens besked.</p> 
+
+        <h2>Test dokumentation</h2>
+        <img src="TestDoc.png">
+
+        <h2>Feedback fra gruppen</h2>
+        <p>Vi følte ikke at den måde some projeket skulle uploades på var forklaret godt nok til at starte med.<br>
+            Projeket føles som 2 forkelige som føles for adskilt fra hinanden.
+            Det var en rigtig fin idé med demoen onsdag.<br> Dog måtte det gerne have været mere klart, hvor 
+            denne demo skulle foregå og med hvilken lærer. Det var ret forvirrende.</p>
+
         <h1>Our opinions</h1>
         <br><br>
-<button onclick="goBack()">Go back to our main page</button>
+        <button onclick="goBack()">Go back to our main page</button>
 
-<script>
-function goBack() {
-    window.history.back();
-}
-</script>
-        
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
     </body>
 </html>
