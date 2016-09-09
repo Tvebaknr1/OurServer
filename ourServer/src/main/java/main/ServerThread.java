@@ -17,6 +17,8 @@ public class ServerThread extends Thread implements ObserverInterface {
     Scanner scr;
     PrintWriter prnt;
 
+    FileWriterClass fileWrite = new FileWriterClass();
+    
     public ServerThread(Socket s) {
 
         this.s = s;
@@ -26,6 +28,8 @@ public class ServerThread extends Thread implements ObserverInterface {
         } catch (Exception ex) {
 
         }
+        
+        fileWrite.start();
     }
 
     private void handleclient(Socket s) {
@@ -36,6 +40,7 @@ public class ServerThread extends Thread implements ObserverInterface {
             System.out.println("");
             while (!loggedIn) {
                 msg = scr.nextLine();
+                fileWrite.addLine(msg);
                 System.out.println(msg);
                 if (msg != "" && msg.startsWith("LOGIN:")) {
                     String[] string;
@@ -51,6 +56,7 @@ public class ServerThread extends Thread implements ObserverInterface {
             while (loggedIn) {
                 msg = scr.nextLine();
                 System.out.println(msg);
+                fileWrite.addLine(msg);
                 if (msg != "" && msg.startsWith("LOGOUT:")) {
                     OurSocket.deleteUsers(username);
                     loggedIn = false;
