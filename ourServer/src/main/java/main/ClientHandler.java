@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,14 +49,11 @@ public class ClientHandler extends Thread implements ObserverInterface
             msgRec.start();
         } catch (Exception ex)
         {
-            System.out.println(ex.toString());
+            Logger.getLogger(Log.LOG_NAME).log(Level.SEVERE, null, ex);
+
         }
     }
 
-    public void receive()
-    {
-
-    }
 
     public void addUser(String username)
     {

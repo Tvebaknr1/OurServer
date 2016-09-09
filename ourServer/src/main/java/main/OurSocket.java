@@ -22,31 +22,39 @@ public class OurSocket implements StaticSubjectInterface {
     static int portNum = 8080;
     private static ArrayList<Thread> thread = new ArrayList<>();
     static ArrayList users = new ArrayList();
-private static boolean runServer = true;
-    public static void stopServer(){
+    private static boolean runServer = true;
+
+    public static void stopServer() {
         runServer = false;
     }
+
     public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length == 2) {
             ip = args[0];
             portNum = Integer.parseInt(args[1]);
 
         }
-        ArrayList socketArray = new ArrayList();
-        ServerSocket ss = new ServerSocket();
-        ss.bind(new InetSocketAddress(ip, portNum));
+        try {
+            Log.setLogFile("logFile.txt", "ServerLog");
 
-        while (runServer) {
-            Socket link = ss.accept();
-            socketArray.add(link);
+            ArrayList socketArray = new ArrayList();
+            ServerSocket ss = new ServerSocket();
+            ss.bind(new InetSocketAddress(ip, portNum));
 
-            System.out.println("new client connection");
-            ServerThread t = new ServerThread(link);
-            register(t);
-            t.start();
+            while (runServer) {
+                Socket link = ss.accept();
+                socketArray.add(link);
 
-            thread.add(t);
+                System.out.println("new client connection");
+                ServerThread t = new ServerThread(link);
+                register(t);
+                t.start();
 
+                thread.add(t);
+
+            }
+        } finally {
+            Log.closeLogger();
         }
 
     }
@@ -69,7 +77,8 @@ private static boolean runServer = true;
     public static void register(ObserverInterface o) {
         observers.add(o);
     }
-    public static void unRegister(ObserverInterface o){
+
+    public static void unRegister(ObserverInterface o) {
         observers.remove(o);
     }
 

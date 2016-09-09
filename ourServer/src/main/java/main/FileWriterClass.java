@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,7 +49,8 @@ public class FileWriterClass extends Thread
                 Thread.sleep(15000);
             } catch (InterruptedException ex)
             {
-                System.out.println(ex.toString());
+               Logger.getLogger(Log.LOG_NAME).log(Level.SEVERE, null, ex);
+
             }
             try
             {
@@ -55,7 +58,8 @@ public class FileWriterClass extends Thread
 
             } catch (IOException ex)
             {
-                System.out.println(ex.toString());
+                Logger.getLogger(Log.LOG_NAME).log(Level.SEVERE, null, ex);
+
             }
         }
     }
