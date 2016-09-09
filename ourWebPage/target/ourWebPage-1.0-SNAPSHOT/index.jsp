@@ -9,7 +9,7 @@
     </head>
     <body>
         <h1>Welcome</h1>
-         <a href="MainPage.html">Go to documentation</a>
+         <a href="Security/MainPage.html">Go to documentation</a>
          
     </body>
 </html>
