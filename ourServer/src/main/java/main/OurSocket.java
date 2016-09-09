@@ -22,7 +22,10 @@ public class OurSocket implements StaticSubjectInterface {
     static int portNum = 8080;
     private static ArrayList<Thread> thread = new ArrayList<>();
     static ArrayList users = new ArrayList();
-
+private static boolean runServer = true;
+    public static void stopServer(){
+        runServer = false;
+    }
     public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length == 2) {
             ip = args[0];
@@ -33,7 +36,7 @@ public class OurSocket implements StaticSubjectInterface {
         ServerSocket ss = new ServerSocket();
         ss.bind(new InetSocketAddress(ip, portNum));
 
-        while (true) {
+        while (runServer) {
             Socket link = ss.accept();
             socketArray.add(link);
 
@@ -44,21 +47,20 @@ public class OurSocket implements StaticSubjectInterface {
 
             thread.add(t);
 
-       }
+        }
 
     }
 
     public static void MSG(String str, String sender) {
         String[] temp = str.split(":");
         String[] receivers = temp[1].split(",");
-        String msg = "MSGRES:"+sender+":" + temp[2];
+        String msg = "MSGRES:" + sender + ":" + temp[2];
         System.out.println(str);
-        if(receivers.length>1)
-        notifyObserver(msg, receivers);
-        else if(receivers.length==1 && !receivers[0].equals("")){
+        if (receivers.length > 1) {
+            notifyObserver(msg, receivers);
+        } else if (receivers.length == 1 && !receivers[0].equals("")) {
             notifyObserver(msg, receivers[0]);
-        }
-        else{
+        } else {
             notifyObserver(msg);
         }
     }
@@ -67,13 +69,18 @@ public class OurSocket implements StaticSubjectInterface {
     public static void register(ObserverInterface o) {
         observers.add(o);
     }
+    public static void unRegister(ObserverInterface o){
+        observers.remove(o);
+    }
 
-    public static void notifyObserver(String s,String user) {
+    public static void notifyObserver(String s, String user) {
         for (ObserverInterface o : observers) {
-            if(o.getusername().equals(user))
-            o.update(s);
+            if (o.getusername().equals(user)) {
+                o.update(s);
+            }
         }
     }
+
     // @Override
     public static void notifyObserver(String s) {
         for (ObserverInterface o : observers) {
@@ -94,12 +101,11 @@ public class OurSocket implements StaticSubjectInterface {
     public static void addUsers(String user) {
         users.add(user);
         String str = "CLIENTLIST:";
-        for(int i = 0; i < users.size()-1; i++)
-        {
+        for (int i = 0; i < users.size() - 1; i++) {
             str += users.get(i) + ",";
         }
-        str += users.get(users.size()-1);
-        
+        str += users.get(users.size() - 1);
+
         notifyObserver(str);
     }
 
@@ -109,8 +115,16 @@ public class OurSocket implements StaticSubjectInterface {
 
     public static void deleteUsers(String user) {
         users.remove(user);
-        String str = "MSGRES:" + user + ":" + user + " HAS LOGGED OUT";
+        String str = "MSGRES:" + user + ":" + " HAS LOGGED OUT";
         notifyObserver(str);
+        String string = "CLIENTLIST:";
+        for (int i = 0; i < users.size() - 1; i++) {
+            string += users.get(i) + ",";
+        }
+        if (users.size() > 0) {
+            string += users.get(users.size() - 1);
+        }
+        notifyObserver(string);
     }
 
 }
